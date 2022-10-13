@@ -16,40 +16,38 @@ const { NotImplementedError } = require('../extensions/index.js');
  *     STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS
  *
  */
-function repeater(string, { repeatTimes=1, separator = "+",
-  addition, additionRepeatTimes, additionSeparator="|" }) {
-  const str = arguments[0];
+function repeater(string, { repeatTimes, separator,
+  addition, additionRepeatTimes, additionSeparator }) {
+  let str = (arguments[0] === null) ? "null" : arguments[0] + "";
   let options = Object.create(arguments[1]);
 
-  if (typeof(str) !== '')
   options.repeatTimes = options.repeatTimes || 1;
   options.separator = options.separator || "+";
-  options.additionSeparator = options.additionSeparator || "|";
-  
-  let additions = [];
-  for (let i = 0; i < options.additionRepeatTimes; i++) {
-    additions.push(options.addition);
+  if (options.addition === null) {
+    options.addition = "null";
   }
-  console.log('additions: ', additions);
+  else if (options.addition !== undefined) {
+    options.addition = options.addition + "";
+    options.additionRepeatTimes = options.additionRepeatTimes || 1;
+    options.additionSeparator = options.additionSeparator || "|";
+  }
 
-  let mainPart = str + additions.join(options.additionSeparator);
-  
+  let mainPart = str;
+  if (options.addition) {
+    let additions = [];
+    for (let i = 0; i < options.additionRepeatTimes; i++) {
+      additions.push(options.addition);
+    }
+    mainPart += additions.join(options.additionSeparator);
+  }
+
   let mains = [];
   for (let i = 0; i < options.repeatTimes; i++) {
     mains.push(mainPart);
   }
-  console.log('mains: ', mains);
-  console.log(mains.join(options.separator));
-  console.log('options.separator: ', options.separator);
-  console.log('options.additionSeparator: ', options.additionSeparator);
-  
+
   return mains.join(options.separator);
 }
-
-repeater('STRING', {
-  repeatTimes: 3, separator: '**',
-  addition: 'PLUS', additionRepeatTimes: 3
-});
 
 module.exports = {
   repeater

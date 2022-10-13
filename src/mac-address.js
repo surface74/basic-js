@@ -15,9 +15,9 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 function isMAC48Address(/* n */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+  return /(\p{Hex_Digit}{2}-){5}\p{Hex_Digit}{2}/u.test(arguments[0]);
 }
+
 module.exports = {
   isMAC48Address
 };

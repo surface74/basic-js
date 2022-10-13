@@ -11,8 +11,7 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 function getEmailDomain(/* email */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+  return arguments[0].match(/[-.\w]+@(([\w-]+\.)+[\w-]+)/)[1];
 }
 
 module.exports = {
