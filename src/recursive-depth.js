@@ -13,24 +13,32 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 class DepthCalculator {
-  calculateDepth(arr, depth = 1) {
-        throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-    arr.forEach(item => {  
+
+  depth = 0;
+  max = 0;
+
+  calculateDepth(arr) {
+    //     throw new NotImplementedError('Not implemented');
+    // // remove line with error and write your code here
+    ++this.depth;
+    this.max = Math.max(this.depth, this.max);
+    arr.forEach(item => {
+
       if (Array.isArray(item)) {
-        console.log(`enter [${item}]:`, depth);
-        depth = this.calculateDepth(item, ++depth);
-        console.log(`exit [${item}]: `, depth);
+
+        this.depth = this.calculateDepth(item);
+        this.max = Math.max(this.max, this.depth);
+
       }
     });
-    return depth;
+
+    return (this.depth === 1) ? this.max : --this.depth;
   }
 }
 
 // const depthCalc = new DepthCalculator();
-
-// console.log(depthCalc.calculateDepth([1, [2],[5], 1]));
-
+// let arr = [1, [8, [[]]], [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]], []]]], []]]]]]]]], []]]], []]]]]]]]]], 2, 3, [8, [[[[[[[[[[[[[[]]]]]]]]]]]]]]], [8, [[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]], 4, 5, ['6575', ['adas', ['dfg', [0]]]]];
+// console.log(depthCalc.calculateDepth(arr));
 
 module.exports = {
   DepthCalculator
